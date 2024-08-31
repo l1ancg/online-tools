@@ -7,10 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Home() {
-  const [inputVal, setInputVal] = React.useState(``);
+  const [inputVal, setInputVal] = React.useState("");
   const [tableVal, setTableVal] = React.useState<
     Record<string, any> | Array<Record<string, any>> | null
   >();
@@ -105,9 +104,9 @@ export default function Home() {
         onChange={(e) => setInputVal(e.target.value)}
       ></Textarea>
 
-      <ScrollArea className="flex-1 h-full border rounded-md p-3">
+      <div className="flex-1 h-full overflow-auto border rounded-md p-3">
         {showContent(tableVal)}
-      </ScrollArea>
+      </div>
     </div>
   );
 }
