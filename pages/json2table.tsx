@@ -26,12 +26,15 @@ export default function Home() {
   const showContent = (
     val: Record<string, any> | Array<Record<string, any>> | any | null
   ) => {
+    if (val === null || val === undefined) {
+      return <div className="m-1 p-0"></div>;
+    }
     if (val instanceof Array) {
       return generateTable(val);
     } else if (typeof val === "object") {
       return generateColumns(val);
     } else {
-      return <div className="m-1 p-0">{val}</div>;
+      return <div className="m-1 p-0">{val || ""}</div>;
     }
   };
 
