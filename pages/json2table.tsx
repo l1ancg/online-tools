@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export default function Home() {
+export default function Json2Table() {
   const [inputVal, setInputVal] = React.useState("");
   const [tableVal, setTableVal] = React.useState<
     Record<string, any> | Array<Record<string, any>> | null
