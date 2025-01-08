@@ -133,36 +133,7 @@ export default function Json2Table() {
           "Inventory Management"
         ]
       }
-    ],
-    "hours": {
-      "monday": {
-        "open": "09:00",
-        "close": "18:00"
-      },
-      "tuesday": {
-        "open": "09:00",
-        "close": "18:00"
-      },
-      "wednesday": {
-        "open": "09:00",
-        "close": "18:00"
-      },
-      "thursday": {
-        "open": "09:00",
-        "close": "20:00"
-      },
-      "friday": {
-        "open": "09:00",
-        "close": "20:00"
-      },
-      "saturday": {
-        "open": "10:00",
-        "close": "17:00"
-      },
-      "sunday": {
-        "closed": true
-      }
-    }
+    ]
   }
 }`);
   const [tableVal, setTableVal] = React.useState<
