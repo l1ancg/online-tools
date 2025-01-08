@@ -9,7 +9,45 @@ import {
 } from "@/components/ui/table";
 
 export default function Json2Table() {
-  const [inputVal, setInputVal] = React.useState("");
+  const [inputVal, setInputVal] = React.useState(`{
+    "name": "My Bookstore",
+    "location": "123 Book St, Reading Town",
+    "books": [
+      {
+        "title": "Learning JavaScript",
+        "author": "John Doe",
+        "price": 29.99,
+        "inStock": true,
+        "genres": ["Programming", "Technology"]
+      },
+      {
+        "title": "Mastering Python",
+        "author": "Jane Smith",
+        "price": 34.99,
+        "inStock": false,
+        "genres": ["Programming", "Technology"]
+      },
+      {
+        "title": "The Great Gatsby",
+        "author": "F. Scott Fitzgerald",
+        "price": 10.99,
+        "inStock": true,
+        "genres": ["Fiction", "Classic"]
+      }
+    ],
+    "employees": [
+      {
+        "name": "Alice Johnson",
+        "position": "Manager",
+        "email": "alice@bookstore.com"
+      },
+      {
+        "name": "Bob Brown",
+        "position": "Sales Associate",
+        "email": "bob@bookstore.com"
+      }
+    ]
+  }`);
   const [tableVal, setTableVal] = React.useState<
     Record<string, any> | Array<Record<string, any>> | null
   >();
