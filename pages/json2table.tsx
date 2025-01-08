@@ -10,50 +10,171 @@ import {
 
 export default function Json2Table() {
   const [inputVal, setInputVal] = React.useState(`{
+  "store": {
     "name": "My Bookstore",
-    "location": "123 Book St, Reading Town",
+    "location": {
+      "address": "123 Book St",
+      "city": "Reading Town",
+      "state": "Bookland",
+      "zipCode": "12345"
+    },
+    "contact": {
+      "phone": "+1-234-567-8901",
+      "email": "info@mybookstore.com",
+      "website": "http://www.mybookstore.com"
+    },
     "books": [
       {
         "title": "Learning JavaScript",
-        "author": "John Doe",
+        "author": {
+          "firstName": "John",
+          "lastName": "Doe"
+        },
         "price": 29.99,
         "inStock": true,
-        "genres": ["Programming", "Technology"]
+        "genres": [
+          "Programming",
+          "Technology"
+        ],
+        "publishDate": "2021-05-15",
+        "ratings": {
+          "averageRating": 4.5,
+          "numberOfReviews": 120
+        }
       },
       {
         "title": "Mastering Python",
-        "author": "Jane Smith",
+        "author": {
+          "firstName": "Jane",
+          "lastName": "Smith"
+        },
         "price": 34.99,
         "inStock": false,
-        "genres": ["Programming", "Technology"]
+        "genres": [
+          "Programming",
+          "Technology"
+        ],
+        "publishDate": "2020-10-01",
+        "ratings": {
+          "averageRating": 4.8,
+          "numberOfReviews": 85
+        }
       },
       {
         "title": "The Great Gatsby",
-        "author": "F. Scott Fitzgerald",
+        "author": {
+          "firstName": "F. Scott",
+          "lastName": "Fitzgerald"
+        },
         "price": 10.99,
         "inStock": true,
-        "genres": ["Fiction", "Classic"]
+        "genres": [
+          "Fiction",
+          "Classic"
+        ],
+        "publishDate": "1925-04-10",
+        "ratings": {
+          "averageRating": 4.2,
+          "numberOfReviews": 200
+        }
+      },
+      {
+        "title": "The Art of War",
+        "author": {
+          "firstName": "Sun",
+          "lastName": "Tzu"
+        },
+        "price": 12.50,
+        "inStock": true,
+        "genres": [
+          "Philosophy",
+          "Military"
+        ],
+        "publishDate": null,
+        "ratings": {
+          "averageRating": 4.7,
+          "numberOfReviews": 150
+        }
       }
     ],
     "employees": [
       {
-        "name": "Alice Johnson",
-        "position": "Manager",
-        "email": "alice@bookstore.com"
+        "name": {
+          "firstName": "Alice",
+          "lastName": "Johnson"
+        },
+        "position": [
+          "Manager",
+          {
+            "title": "Senior Manager",
+            "level": "Senior"
+          }
+        ],
+        "email": [
+          "alice@bookstore.com",
+          {
+            "personal": "alice.j@gmail.com"
+          }
+        ],
+        "_id": "emp001"
       },
       {
-        "name": "Bob Brown",
+        "_id": "emp002",
+        "name": {
+          "firstName": "Bob",
+          "lastName": "Brown"
+        },
         "position": "Sales Associate",
-        "email": "bob@bookstore.com"
+        "email": "bob@bookstore.com",
+        "hireDate": "2022-06-15",
+        "skills": [
+          "Customer Service",
+          "Sales",
+          "Inventory Management"
+        ]
       }
-    ]
-  }`);
+    ],
+    "hours": {
+      "monday": {
+        "open": "09:00",
+        "close": "18:00"
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "18:00"
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "18:00"
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "20:00"
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "20:00"
+      },
+      "saturday": {
+        "open": "10:00",
+        "close": "17:00"
+      },
+      "sunday": {
+        "closed": true
+      }
+    }
+  }
+}`);
   const [tableVal, setTableVal] = React.useState<
     Record<string, any> | Array<Record<string, any>> | null
   >();
 
   React.useEffect(() => {
     try {
+      if (!inputVal) {
+        setTableVal({});
+        return;
+      }
       const parsed = JSON.parse(inputVal);
       setTableVal(parsed);
     } catch (error) {
@@ -67,10 +188,14 @@ export default function Json2Table() {
     if (val === null || val === undefined) {
       return <div className="m-1 p-0"></div>;
     }
-    if (val instanceof Array) {
-      return generateTable(val);
-    } else if (typeof val === "object") {
-      return generateColumns(val);
+    // console.log("typeof ->", typeof val);
+
+    if (typeof val === "object") {
+      if (val instanceof Array) {
+        return generateTable(val);
+      } else {
+        return generateColumns(val);
+      }
     } else {
       return <div className="m-1 p-0">{val || ""}</div>;
     }
@@ -103,6 +228,22 @@ export default function Json2Table() {
 
   const generateTable = (val: Array<Record<string, any>>) => {
     if (!val || val.length === 0) return null;
+
+    if (typeof val[0] === "string") {
+      return (
+        <Table>
+          <TableBody>
+            {Object.entries(val).map(([key, value], idx) => (
+              <TableRow key={key} className="hover:bg-slate-300">
+                <TableCell className="p-0 m-0 w-full border">
+                  {showContent(value)}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      );
+    }
 
     const headers = Object.keys(val[0]);
 
@@ -141,7 +282,7 @@ export default function Json2Table() {
     <div className="p-3 flex flow-row h-full">
       <Textarea
         value={inputVal}
-        className="w-[300px] h-full mr-3"
+        className="w-[300px] h-full mr-3 resize-none"
         onChange={(e) => setInputVal(e.target.value)}
       ></Textarea>
 
